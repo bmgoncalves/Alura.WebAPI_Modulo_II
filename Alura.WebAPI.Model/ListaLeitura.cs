@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace Alura.ListaLeitura.Modelos
 {
     public static class TipoListaLeituraExtensions
     {
-        private static readonly Dictionary<string, TipoListaLeitura> mapa =
+        private static Dictionary<string, TipoListaLeitura> mapa =
             new Dictionary<string, TipoListaLeitura>
             {
                 { "ParaLer", TipoListaLeitura.ParaLer },

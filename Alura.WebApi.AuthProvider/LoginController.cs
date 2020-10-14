@@ -1,11 +1,13 @@
-﻿using Alura.ListaLeitura.Seguranca;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Alura.ListaLeitura.Seguranca;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Alura.ListaLeitura.Services
 {
@@ -28,20 +30,17 @@ namespace Alura.ListaLeitura.Services
                 var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, true, true);
                 if (result.Succeeded)
                 {
-                    //Padrão de referencia https://jwt.io/
-
-                    //Cria token (header + payload (direitos) + signature) 
+                    //cria token (header + payload >> direitos + signature)
                     var direitos = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, model.Login),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() )
-
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     };
 
                     var chave = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid"));
                     var credenciais = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
 
-                    var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
+                    var token = new JwtSecurityToken(
                         issuer: "Alura.WebApp",
                         audience: "Postman",
                         claims: direitos,
@@ -49,8 +48,8 @@ namespace Alura.ListaLeitura.Services
                         expires: DateTime.Now.AddMinutes(30)
                     );
 
-                    var tokenString = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().WriteToken(token);
-                    return Ok(tokenString); //200
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok(tokenString);
                 }
                 return Unauthorized(); //401
             }

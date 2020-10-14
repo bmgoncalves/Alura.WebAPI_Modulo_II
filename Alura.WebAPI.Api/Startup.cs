@@ -32,17 +32,15 @@ namespace Alura.WebAPI.Api
 
             services.AddTransient<IRepository<Livro>, RepositorioBaseEF<Livro>>();
 
-            //Configura o serviço para permtiir o envio da instancia de livro em formato CSV
             services.AddMvc(options => {
-                options.OutputFormatters.Add(new LivroCSVFormatter());
+                options.OutputFormatters.Add(new LivroCsvFormatter());
             }).AddXmlSerializerFormatters();
 
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
                 options.DefaultChallengeScheme = "JwtBearer";
-            }).AddJwtBearer("JwtBearer", options => 
-            {
+            }).AddJwtBearer("JwtBearer", options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -52,13 +50,11 @@ namespace Alura.WebAPI.Api
                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("alura-webapi-authentication-valid")),
                     ClockSkew = TimeSpan.FromMinutes(5),
                     ValidIssuer = "Alura.WebApp",
-                    ValidAudience = "Postman"                    
+                    ValidAudience = "Postman",
                 };
             });
-
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -67,8 +63,8 @@ namespace Alura.WebAPI.Api
             }
 
             app.UseAuthentication();
+
             app.UseMvc();
-            
         }
     }
 }

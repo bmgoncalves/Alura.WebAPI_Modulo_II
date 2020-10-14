@@ -1,28 +1,43 @@
-﻿using Alura.ListaLeitura.Modelos;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Alura.ListaLeitura.Modelos;
 using Alura.ListaLeitura.Persistencia;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Alura.ListaLeitura.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class LivrosController : ControllerBase
     {
         private readonly IRepository<Livro> _repo;
 
-        public LivrosController(IRepository<Livro> repo)
+        public LivrosController(IRepository<Livro> repository)
         {
-            _repo = repo;
+            _repo = repository;
         }
 
         [HttpGet]
-        public IActionResult ListaDelivros()
+        public IActionResult ListaDeLivros()
         {
             var lista = _repo.All.Select(l => l.ToApi()).ToList();
             return Ok(lista);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Recuperar(int id)
+        {
+            var model = _repo.Find(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return Ok(model.ToApi());
         }
 
         [HttpGet("{id}/capa")]
@@ -39,33 +54,21 @@ namespace Alura.ListaLeitura.Api.Controllers
             return File("~/images/capas/capa-vazia.png", "image/png");
         }
 
-
-        [HttpGet("{id}")]
-        public IActionResult Recuperar(int id)
-        {
-            var model = _repo.Find(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            return Ok(model.ToApi());
-        }
-
         [HttpPost]
-        public IActionResult Incluir([FromBody] LivroUpload model)
+        public IActionResult Incluir([FromForm] LivroUpload model)
         {
             if (ModelState.IsValid)
             {
                 var livro = model.ToLivro();
                 _repo.Incluir(livro);
                 var uri = Url.Action("Recuperar", new { id = livro.Id });
-                return Created(uri,livro); //201 - Objeto criado no recurso
+                return Created(uri, livro); //201
             }
             return BadRequest();
         }
 
         [HttpPut]
-        public IActionResult Alterar([FromBody] LivroUpload model)
+        public IActionResult Alterar([FromForm] LivroUpload model)
         {
             if (ModelState.IsValid)
             {
@@ -78,11 +81,10 @@ namespace Alura.ListaLeitura.Api.Controllers
                         .FirstOrDefault();
                 }
                 _repo.Alterar(livro);
-                return Ok();
+                return Ok(); //200
             }
             return BadRequest();
         }
-
 
         [HttpDelete("{id}")]
         public IActionResult Remover(int id)
@@ -93,8 +95,7 @@ namespace Alura.ListaLeitura.Api.Controllers
                 return NotFound();
             }
             _repo.Excluir(model);
-            return NoContent(); //203 - Nao existe mais conteudo
+            return NoContent(); //203
         }
-
     }
 }
