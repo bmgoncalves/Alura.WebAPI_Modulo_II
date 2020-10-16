@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.WebAPI.Model", "Alura.WebAPI.Model\Alura.WebAPI.Model.csproj", "{492C972C-38DD-4C4F-B3C3-C9A62898E406}"
 EndProject
@@ -22,6 +22,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.WebAPI.AuthProvider", "Alura.WebAPI.AuthProvider\Alura.WebAPI.AuthProvider.csproj", "{2F69831F-9016-49C4-8B11-C03637ED18F5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alura.WebAPI.Api", "Alura.WebAPI.Api\Alura.WebAPI.Api.csproj", "{CC529496-D095-427A-86CC-0D4EF0F48729}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apoio", "Apoio", "{EEE11F61-1D1B-4770-8A14-616A5DBFE73D}"
+	ProjectSection(SolutionItems) = preProject
+		Apoio.txt = Apoio.txt
+		Roteiro_Curso.txt = Roteiro_Curso.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

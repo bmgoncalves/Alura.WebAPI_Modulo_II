@@ -1,0 +1,66 @@
+|==============================================================MODULO I============================================================|
+|/*-------------------Parte 1 ------------------------*/																		   |
+|* Criar um novo controlador Livros2Controller para evoluir a API na versão 2													   |
+|* Instalar o pacote Microsoft.ApiVersioning																					   |
+|* Anotar os controladores com a versão suportada por eles																		   |
+|* Mudar a rota dos controladores para usar versionamento no caminho da URL														   |
+|* Configurar opções de versionamento na classe Startup																			   |
+|																																   |
+|* Que isso garante estabilidade para os clientes de nossa API ao mesmo tempo em que permite a evolução da mesma				   |
+|* Que existem dois mecanismos de versionamento propostos pela MS, um no caminho da URL e outro na query string					   |
+|* Que vamos precisar suportar cópias modificadas de classes (homônimas ou não).												   |
+|* Que o pacote Microsoft.AspNet.WebApi.Versioning abstrai a complexidade da implementação de versionamento pra gente,			   |
+|  adicionando várias funcionalidades																							   |
+|																																   |
+|/*-------------------Parte 2 ------------------------*/																		   |
+|* Implementar ordenação na action que retorna a coleção de livros																   |
+|* Permitir que a coleção de livros seja filtrada pelos campos Título, Subtítulo, Resumo, Autor e Lista							   |
+|* Fazer com que a coleção de livros seja retornada com paginação																   |
+|/*-------------------Parte 3 ------------------------*/																		   |
+|* Criar um tipo que irá representar um erro ocorrido na API: ErrorResponse														   |
+|* Implementar um filtro de exceção para capturar as exceções na API e retornar um objeto do tipo mencionado acima				   |
+|* Configurar o filtro na classe de configuração Startup																		   |
+|* Criar um tipo que representa um erro na API																					   |
+|																																   |
+|* Utilizar filtros de exceção para retornar esse novo tipo sempre que uma ocorrer												   |
+|* Que filtros ajudam a capturar informações da requisição e até mesmo modificar a resposta (como no caso das exceções)			   |
+|* Que existem filtros específicos para cada estágio do pipeline do AspNet Core: autorização, 									   |
+|  recursos, actions, resultados e exceções																						   |
+|* Que o atributo ApiController tem como comportamento padrão que retorna um 400 (Bad Request) sem precisar entrar na action, 	   |
+|  e isso é feito com um filtro de action																						   |
+|/*-------------------Parte 4 ------------------------*/																		   |
+|* Instalar o metapacote Swashbuckle.Swagger																					   |
+|* Configurar a aplicação para gerar o arquivo swagger.json																		   |
+|* Customizar a documentação das actions e controllers																			   |
+|* Configurar a aplicação para documentar o mecanismo de autenticação da API													   |
+|																																   |
+|============================================================MODULO II=============================================================|
+| /*-------------------Parte 1 ------------------------*/																		   |
+| * A classe HttpClient e a utilizou para enviar requisições HTTP de dentro de uma aplicação C#									   |
+| * Isolou o código de consumo da API numa classe de serviço																	   |
+| * Configurou sua aplicação Web para injetar um objeto dessa classe sempre que um controlador precisasse						   |
+| * Conheceu a interface IHttpClientFactory																						   |
+| * descobriu um pacote com extensões para facilitar a serialização e desserialização de objetos: Microsoft.AspNet.WebApi.Client   |
+| /*-------------------Parte 2 ------------------------*/																		   |
+| * Nessa aula você continuou a substituir o código das actions para consumir nossa API, ainda sem autenticação. 				   |
+|   Para isso: você aprendeu a enviar requisições para os verbos HTTP DELETE 													   |
+|   e descobriu o padrão para enviar requisições para outros tipos de verbos HTTP.												   |
+| /*-------------------Parte 3 ------------------------*/																		   |
+| * Enviar requisições para os verbos HTTP POST e PUT																			   |
+| * Como enviar requisições cujo conteúdo do corpo era multipart/formdata														   |
+| * Fazer upload de arquivos usando o aprendizado acima																			   |
+| /*-------------------Parte 4 ------------------------*/																		   |
+| * Criar a classe AuthApiClient para consumir o serviço de autenticação e obter o token JWT									   |
+| * Modificar a action Usuario/Login para colocar o código de consumo lá														   |
+| * Guardar o token em um cookie de autenticação na mesma action																   |
+| * Modificar a classe LivroApiClient para injetar o token como cabeçalho de autenticação										   |
+| * Aprendeu a enviar cabeçalhos na requisição HTTP através da propriedade DefaultRequestHeaders								   |
+|   usou JWT Token para autorização das requisições																				   |
+| /*-------------------Parte 5 ------------------------*/																		   |
+| * Mudar o esquema da autenticação para utilizar Cookies																		   |
+| * Usar as classes HttpContext, ClaimsPrincipal, ClaimsIdentity, lista de Claims para definir a esquema						   |
+| * Receber como dependência um objeto que implementa a interface IHttpContextAccessor											   |
+| * Usar a classe HttpContext e as classes Claims* para definir o novo esquema de autenticação									   |
+| * Usar a interface IHttpContextAccessor para ter acesso ao HttpContext fora das classes do framework							   |
+| 																																   |
+|============================================================MODULO III============================================================|
